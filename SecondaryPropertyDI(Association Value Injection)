@@ -1,0 +1,101 @@
+******************************************
+BEANS
+******************************************
+package beans;
+
+public class Laptop {
+	
+	private String mfdBy;
+	private Processor processor;
+	
+	
+	public String getMfdBy() {
+		return mfdBy;
+	}
+	public void setMfdBy(String mfdBy) {
+		this.mfdBy = mfdBy;
+	}
+	public Processor getProcessor() {
+		return processor;
+	}
+	public void setProcessor(Processor processor) {
+		this.processor = processor;
+	}
+	
+	public void printLapInfo() {
+		System.out.println("Laptop from "+mfdBy+" with "+processor.getpVersion());
+	}
+}
+*********************
+package beans;
+
+public class Processor {
+	
+	private String pVersion;
+	private String genId;
+	
+	
+	public String getpVersion() {
+		return pVersion;
+	}
+	public void setpVersion(String pVersion) {
+		this.pVersion = pVersion;
+	}
+	public String getGenId() {
+		return genId;
+	}
+	public void setGenId(String genId) {
+		this.genId = genId;
+	}
+}
+*************************************************
+RESOURCES
+*************************************************
+#lap.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="lap" class="beans.Laptop">
+		<property name="mfdBy" value="Dell"/>
+		<property name="processor" ref="pro"></property>
+	</bean>
+</beans>
+
+#processor.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="pro" class="beans.Processor">
+		<property name="pVersion" value="i5"/>
+		<property name="genId" value="7th_Gen"/>
+	</bean>
+
+
+</beans>
+*********************************************
+APPLICATION TEST
+*********************************************
+package client;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.*;
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		String [] resource=new String[] {"resources/lap.xml","resources/processor.xml"};
+		ApplicationContext ap=new ClassPathXmlApplicationContext(resource);
+		Laptop l=(Laptop)ap.getBean("lap");
+		l.printLapInfo();
+		
+	}
+}
+
+
