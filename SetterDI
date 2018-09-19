@@ -1,0 +1,58 @@
+***********************************
+Bean Class
+***********************************
+package beans;
+
+public class Person {
+	
+	private String name;
+	private String gender;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+  public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public void sayHello() {
+		System.out.println("Hello, "+this.name+" you are "+this.gender);
+	}
+}
+
+**************************************
+Spring.XML
+**************************************
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	 <bean id="person" class="beans.Person">
+			<property name="name" value="Priyo"/>
+			<property name="gender" value="Male"/>
+	</bean>
+</beans>
+************************************
+Application Test Class
+************************************
+package client;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.Person;
+
+public class Test {
+
+	public static void main(String[] args) {
+		ApplicationContext ap=new ClassPathXmlApplicationContext("resources/Spring.xml");
+		Person p=(Person)ap.getBean("person");
+		p.sayHello();
+	}
+}
+
