@@ -1,0 +1,118 @@
+******************************************
+BEANS
+******************************************
+package beans;
+
+public class Laptop {
+	
+	private String mfdBy[];
+	private Processor processor[];
+	
+	
+	public String[] getMfdBy() {
+		return mfdBy;
+	}
+
+
+	public void setMfdBy(String[] mfdBy) {
+		this.mfdBy = mfdBy;
+	}
+
+
+	public Processor[] getProcessor() {
+		return processor;
+	}
+
+
+	public void setProcessor(Processor[] processor) {
+		this.processor = processor;
+	}
+
+
+	public void printLapInfo() {
+		for(String laps:mfdBy) {
+			System.out.println(laps);
+		}
+		for(Processor pros:processor) {
+			System.out.println(pros.getpVersion());
+		}
+	}
+
+}
+
+*********************
+package beans;
+
+public class Processor {
+	
+	private String pVersion;
+	
+	public String getpVersion() {
+		return pVersion;
+	}
+	public void setpVersion(String pVersion) {
+		this.pVersion = pVersion;
+	}
+	
+}
+
+*************************************************
+RESOURCES
+*************************************************
+#lap.xml
+
+<<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="pro1" class="beans.Processor">
+		<property name="pVersion" value="i5"/>
+	</bean>
+	<bean id="pro2" class="beans.Processor">
+		<property name="pVersion" value="i3"/>
+	</bean>
+	<bean id="pro3" class="beans.Processor">
+		<property name="pVersion" value="i9"/>
+	</bean>
+	
+	<bean id="lap" class="beans.Laptop">
+		<property name="mfdBy">
+				<list>
+					<value>HP</value>
+					<value>Vio</value>
+					<value>Mac</value>
+				</list>
+		</property>
+		<property name="processor">
+			<list>
+				<ref bean="pro1"/>
+				<ref bean="pro2"/>
+				<ref bean="pro3"/>
+			</list>
+		</property>
+	</bean>
+</beans>
+*********************************************
+APPLICATION TEST
+*********************************************
+package client;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import beans.*;
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		String [] resource=new String[] {"resources/lap.xml","resources/processor.xml"};
+		ApplicationContext ap=new ClassPathXmlApplicationContext(resource);
+		Laptop l=(Laptop)ap.getBean("lap");
+		l.printLapInfo();
+		
+	}
+}
+
+
